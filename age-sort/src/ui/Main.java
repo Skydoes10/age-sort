@@ -5,6 +5,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 public class Main {
 
@@ -28,6 +30,7 @@ public class Main {
 				ageArray[j] = Double.parseDouble(ageStringArray[j]);
 			}
 			ageArray = bubbleSort(ageArray);
+			output += output(ageArray)+"\n";
 		}
 		bw.write(output);
 		
@@ -57,5 +60,30 @@ public class Main {
 			sortedArray[i+1] = ageArray[i];
 		}
 		return sortedArray;
+	}
+	
+	public static String output(double[] ageArray) {
+		DecimalFormat df = new DecimalFormat("#.00");
+		double decimals = ageArray[0] - (int)ageArray[0];
+		String dString = decimals+"";
+		String average = "";
+		if(ageArray[0] % 1 == 0) {
+			average = df.format(ageArray[0]) + "-";
+		}
+		else if(dString.charAt(3) == '0') {
+			average = df.format(ageArray[0]) + "-";
+			average = average.substring(0, average.length()-1)+"-";
+		}
+		else {
+			df.setRoundingMode(RoundingMode.DOWN);
+			average = df.format(ageArray[0]) + "-";
+		}
+		for(int i = 1; i < ageArray.length; i++) {
+			average += ageArray[i]+" ";
+		}
+		
+		average = average.substring(0, average.length()-1);
+		
+		return average;
 	}
 }
